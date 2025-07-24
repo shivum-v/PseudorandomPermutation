@@ -1,1 +1,1 @@
-# FeistelCipher
+# Psuedorandom Permutation (PRP)
