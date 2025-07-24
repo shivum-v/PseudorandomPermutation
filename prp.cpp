@@ -4,20 +4,12 @@
 #include <cmath>
 using namespace std;
 
-const int base = 3;
-const int length = 4;
+const int base = 34;
+const int length = 6;
 
-/* ------------------------------------
-
-- Character set limited to 3 (A = 0, B = 1, C = 2)
-- String is 4 characters in length (AAAA, AAAB, ..., CCCC)
-  => Total 81 different combinations (3^4)
-
------------------------------------- */
-
-int stringToValue(string s, map<char, int>& charSet) {
+long long stringToValue(string s, map<char, int>& charSet) {
     int size = s.size();
-    int value = 0;
+    long long value = 0;
 
     for (int i = 0; i < size; ++i) {
         value += (charSet[s[size - 1 - i]] * pow(base, i));
@@ -26,8 +18,8 @@ int stringToValue(string s, map<char, int>& charSet) {
     return value;
 }
 
-string valToString(int val, map<int, char>& intSet) {
-    int maxVal = static_cast<int>(pow(base, length));
+string valToString(long long val, map<int, char>& intSet) {
+    long long maxVal = static_cast<int>(pow(base, length));
     val %= maxVal;
 
     string result(length, intSet[0]);
@@ -38,13 +30,11 @@ string valToString(int val, map<int, char>& intSet) {
     }
 
     return result;
-
-
 }
 
 string PRP(map<char, int>& charSet, map<int, char>& intSet, string s) {
-    int code = stringToValue(s, charSet);
-    int newValue = ((10 * code) + 7) % static_cast<int>(pow(base, length));
+    long long code = stringToValue(s, charSet);
+    long long newValue = ((10 * code) + 7) % static_cast<long long>(pow(base, length));
     string encoded = valToString(newValue, intSet);
 
     return encoded;
@@ -54,15 +44,25 @@ int main() {
     map<char, int> charSet;
     map<int, char> intSet;
     
-    // Set to associate each letter with a number value
-    for (int i = 0; i < base; ++i) {
-        charSet['A' + i] = i;
-        intSet[i] = 'A' + i;
+    // Initializing charSet and intSet
+    for (int i = 0; i < 10; ++i) {
+        charSet['0' + i] = i;
+        intSet[i] = '0' + i;
     }
 
-    string start = "CBBA";
+    int ctr = 10;
+    for (int i = 0; i < 26; ++i) {
+        if (('A' + i) == 'I' || ('A' + i) == 'O') continue;
+
+        charSet['A' + i] = ctr;
+        intSet[ctr] = 'A' + i;
+        ++ctr;
+    }
+
+    string start = "T8BK91";
     map<string, int> codes;
-    
+    long long count = 0;
+
     while (true) {
         string newText = PRP(charSet, intSet, start);
 
@@ -70,8 +70,9 @@ int main() {
             cout << "adding: " << newText << endl;
             codes[newText] = 1;
             start = newText;
+            ++count;
         } else {
-            cout << "ending with size: " << codes.size() << endl;
+            cout << "ending with size: " << count << endl;
             break;
         }
     }
