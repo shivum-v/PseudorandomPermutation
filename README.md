@@ -9,6 +9,7 @@ PRP ensures no repeat string generation, and randomness between two strings
 To Compile & Run:
 
 g++ ./prp.cpp -o prp
+
 .\prp.exe (or .\prp.exe > out.txt)
 
 
