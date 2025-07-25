@@ -59,7 +59,7 @@ int main() {
         ++ctr;
     }
 
-    string start = "T8BK91";
+    string start = "CVMC9P";
     map<string, int> codes;
     long long count = 0;
 
@@ -71,6 +71,8 @@ int main() {
             codes[newText] = 1;
             start = newText;
             ++count;
+
+            cout << "total numbers: " << count << endl;
         } else {
             cout << "ending with size: " << count << endl;
             break;
